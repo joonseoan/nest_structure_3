@@ -1,0 +1,25 @@
+1. next new di_3 (creating a new project)
+2. In terminal, create modules
+
+  nest g module computer
+  nest g module cpu 
+  nest g module disk
+  nest g module power
+
+3. In terminal, create 3 services
+
+  nest g service cpu 
+  nest g service disk
+  nest g service power
+
+4. In terminal, create a controller
+
+  nest g controller computer
+
+// So a computer controller with module, and 3 services with modules
+
+5. It should bottoms up approach.
+  . The last dependency power
+  . The mid dis and cpu
+  . The highest level is computer which is a module
+
