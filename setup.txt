@@ -20,6 +20,69 @@
 
 5. It should bottoms up approach.
   . The last dependency power
-  . The mid dis and cpu
+  . The mid disk and cpu
   . The highest level is computer which is a module
 
+6. Sharing service to the parent class.
+  1) The last child: PowerModule
+
+  [service]
+
+    import { Injectable } from '@nestjs/common';
+
+    @Injectable()
+    export class PowerService {
+      supplyPower(watts: number) {
+        console.log(`Supplying ${watts} worth of power`);
+      }
+    }
+  
+  [module]
+
+    import { Module } from '@nestjs/common';
+    import { PowerService } from './power.service';
+
+    // decorator to use PowerService
+
+    @Module({
+      // providers is to use the PowerService in PowerModule
+      providers: [PowerService],
+      // now we can share PowerService to be used in other modules like CPUModule.
+      exports: [PowerService],
+    })
+    export class PowerModule {}
+
+  2) CPUModule: parent
+
+  [service]
+
+    import { Injectable } from '@nestjs/common';
+    // import PowerService
+    import { PowerService } from 'src/power/power.service';
+
+    @Injectable()
+    export class CpuService {
+      // Declare service in the constructor
+      constructor(private powerService: PowerService) {}
+
+      compute(a: number, b: number) {
+        console.log('Drawing 10 watts of power from Power Service.');
+
+        this.powerService.supplyPower(10);
+
+        return a + b;
+      }
+    }
+
+  [module]
+
+    import { Module } from '@nestjs/common';
+    import { CpuService } from './cpu.service';
+    import { PowerModule } from 'src/power/power.module';
+
+    @Module({
+      // In order to use "PowerModule" and its service including PowerService in CPUModule
+      imports: [PowerModule],
+      providers: [CpuService],
+    })
+    export class CpuModule {}
