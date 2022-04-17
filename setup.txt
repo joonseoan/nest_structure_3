@@ -1,4 +1,4 @@
-1. next new di_3 (creating a new project)
+1. nest new di_3 (creating a new project)
 2. In terminal, create modules
 
   nest g module computer

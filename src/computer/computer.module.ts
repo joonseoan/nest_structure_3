@@ -6,5 +6,6 @@ import { DiskModule } from 'src/disk/disk.module';
 @Module({
   imports: [CpuModule, DiskModule],
   controllers: [ComputerController],
+  // we do not need to register Controller for DI as mentioned in part2.
 })
 export class ComputerModule {}
